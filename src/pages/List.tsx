@@ -31,7 +31,6 @@ const List: React.FC = () => {
         });
         const result = await response.json();
         
-        // Correctly extract the array from TABLE_DATA.data
         const rawData = result.TABLE_DATA?.data || [];
         
         const data = rawData.map((empArray: any[], index: number) => ({
@@ -41,7 +40,6 @@ const List: React.FC = () => {
           id: empArray[3] || `emp-${index}`,
           date: empArray[4],
           salary: empArray[5],
-          // Ensure salary is a number for charts
           salaryValue: parseFloat(empArray[5]?.replace(/[$,]/g, '')) || 0
         }));
         setEmployees(data);
@@ -79,7 +77,6 @@ const List: React.FC = () => {
 
   return (
     <div className="h-screen flex flex-col bg-slate-50">
-      {/* Header */}
       <header className="bg-white border-b border-slate-200 px-6 py-4 flex items-center justify-between sticky top-0 z-10 shadow-sm">
         <div className="flex items-center gap-3">
           <div className="bg-slate-900 p-2 rounded-lg">
@@ -107,7 +104,6 @@ const List: React.FC = () => {
         </div>
       </header>
 
-      {/* Toolbar */}
       <div className="px-6 py-4 bg-white border-b border-slate-200 flex gap-4 overflow-x-auto">
         <div className="relative flex-1 group">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 group-focus-within:text-slate-900 transition-colors" />
@@ -125,7 +121,6 @@ const List: React.FC = () => {
         </button>
       </div>
 
-      {/* Virtualized Grid Container */}
       <div className="flex-1 relative overflow-hidden">
         {loading ? (
           <div className="absolute inset-0 flex items-center justify-center">
@@ -137,9 +132,7 @@ const List: React.FC = () => {
             onScroll={onScroll}
             className="h-full overflow-y-auto"
           >
-            {/* Scroll Proxy */}
             <div style={{ height: totalContentHeight, position: 'relative' }}>
-              {/* Virtual Container */}
               <div 
                 style={{ 
                   transform: `translateY(${translateY}px)`,

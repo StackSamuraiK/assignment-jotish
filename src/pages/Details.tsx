@@ -18,7 +18,6 @@ const Details: React.FC = () => {
   const [isDrawing, setIsDrawing] = useState(false);
 
 
-  // Initialize Camera
   useEffect(() => {
     const startCamera = async () => {
       try {
@@ -55,7 +54,6 @@ const Details: React.FC = () => {
         const dataUrl = canvas.toDataURL('image/png');
         setPhoto(dataUrl);
 
-        // Stop camera
         if (stream) {
           stream.getTracks().forEach(track => track.stop());
           setStream(null);
@@ -113,15 +111,11 @@ const Details: React.FC = () => {
       const ctx = mergedCanvas.getContext('2d');
 
       if (ctx) {
-        // Draw photo
         ctx.drawImage(canvasRef.current, 0, 0);
 
-        // Draw signature (scale to fit)
         ctx.drawImage(signatureRef.current, 0, 0, mergedCanvas.width, mergedCanvas.height);
 
         const dataUrl = mergedCanvas.toDataURL('image/png');
-
-        // Navigate to analytics with the result
 
         navigate('/analytics', {
           state: {
@@ -160,7 +154,6 @@ const Details: React.FC = () => {
           </div>
 
           <div className="relative aspect-video bg-slate-900 rounded-2xl overflow-hidden mb-8 shadow-inner border-2 border-slate-100">
-            {/* Hidden canvas for capture - must be rendered to be available in ref */}
             <canvas ref={canvasRef} className="hidden" />
 
             {!photo ? (
@@ -185,10 +178,9 @@ const Details: React.FC = () => {
               <div className="relative w-full h-full">
                 <img src={photo} alt="Captured" className="w-full h-full object-cover" />
 
-                {/* Signature Overlay */}
                 <canvas
                   ref={signatureRef}
-                  width={800} // Intentional Bug: Fixed width/height might not match display size
+                  width={800} 
                   height={450}
                   onMouseDown={startDrawing}
                   onMouseMove={draw}

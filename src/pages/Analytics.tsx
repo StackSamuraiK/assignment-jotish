@@ -5,7 +5,7 @@ import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import { Home, BarChart3, Map as MapIcon, Image as ImageIcon, ArrowLeft, Download } from 'lucide-react';
 
-// Fix Leaflet icon issue
+
 import markerIcon from 'leaflet/dist/images/marker-icon.png';
 import markerShadow from 'leaflet/dist/images/marker-shadow.png';
 
@@ -38,7 +38,6 @@ const CITY_COORDS: Record<string, [number, number]> = {
   'Delhi': [28.6139, 77.2090],
   'Pune': [18.5204, 73.8567],
   'Hyderabad': [17.3850, 78.4867],
-  // Add fallback for common Indian cities if data comes from there
   'Bangaluru': [12.9716, 77.5946],
   'Bengaluru': [12.9716, 77.5946],
 };
@@ -52,7 +51,6 @@ const Analytics: React.FC = () => {
 
   useEffect(() => {
     if (!employees) {
-      // Fallback: fetch again if page refreshed
       const fetchData = async () => {
         try {
           const response = await fetch('https://backend.jotish.in/backend_dev/gettabledata.php', {
@@ -90,7 +88,7 @@ const Analytics: React.FC = () => {
         groups[city] = { 
           total: 0, 
           count: 0, 
-          coords: CITY_COORDS[city] || [20, 77] // Default to center of India if unknown
+          coords: CITY_COORDS[city] || [20, 77] 
         };
       }
       groups[city].total += emp.salaryValue;
@@ -126,7 +124,6 @@ const Analytics: React.FC = () => {
 
 
       <main className="p-6 max-w-7xl mx-auto w-full space-y-8">
-        {/* Merged Image Section */}
         {mergedImage && (
           <section className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm animate-in fade-in slide-in-from-bottom-4 duration-500">
             <div className="flex items-center gap-3 mb-6">
@@ -175,9 +172,7 @@ const Analytics: React.FC = () => {
           </section>
         )}
 
-        {/* Charts & Maps Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Custom SVG Chart */}
           <section className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm">
             <div className="flex items-center gap-3 mb-8">
                 <div className="p-2 bg-slate-100 text-slate-900 rounded-lg">
@@ -188,7 +183,6 @@ const Analytics: React.FC = () => {
             
             <div className="h-[400px] w-full mt-4">
               <svg width="100%" height="100%" viewBox="0 0 500 300" preserveAspectRatio="none">
-                {/* Grid Lines */}
                 {[0, 1, 2, 3, 4].map(i => (
                   <line 
                     key={i} 
@@ -201,7 +195,6 @@ const Analytics: React.FC = () => {
                   />
                 ))}
                 
-                {/* Bars */}
                 {cityData.slice(0, 6).map((c, i) => {
                   const barWidth = 40;
                   const spacing = (440 - (6 * barWidth)) / 7;
@@ -242,7 +235,6 @@ const Analytics: React.FC = () => {
                   );
                 })}
                 
-                {/* Y-Axis Label */}
                 <text x="5" y="150" transform="rotate(-90, 10, 150)" className="text-[10px] fill-slate-400 uppercase tracking-widest font-bold">
                     Salary (Avg)
                 </text>
@@ -260,7 +252,6 @@ const Analytics: React.FC = () => {
           </section>
 
 
-          {/* Map Section */}
           <section className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm flex flex-col">
             <div className="flex items-center gap-3 mb-8">
                 <div className="p-2 bg-rose-50 text-rose-600 rounded-lg">
