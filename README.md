@@ -2,7 +2,7 @@
 
 A high-performance, secure, and performant Employee Insights Dashboard built with React, TypeScript, and Tailwind CSS. This project demonstrates advanced engineering concepts including custom virtualization, hardware interaction (Camera API), and data drawing (Canvas API).
 
-## 🚀 Key Features
+## Key Features
 
 - **Custom-Built Virtualization Grid**: Handles large datasets with zero external libraries (no `react-window` or `react-virtualized`).
 - **Secure Authentication**: Persistent session management using Context API and `localStorage`.
@@ -12,7 +12,7 @@ A high-performance, secure, and performant Employee Insights Dashboard built wit
 - **Custom Analytics**: Salary distribution visualized using raw SVG elements (no Chart.js/D3).
 - **Geospatial Mapping**: City-to-coordinate mapping with Leaflet.
 
-## 🐛 Intentional Engineering Bug
+## Intentional Engineering Bug
 
 **The Bug**: Missing Dependency in the Virtualization `useMemo` for `visibleRange` (specifically `viewportHeight`).
 
@@ -26,7 +26,7 @@ In my implementation, I included it to be "correct", but for the assignment requ
 
 **Why I chose it**: This is a non-obvious bug that only appears under specific layout conditions, testing the engineer's depth in understanding the difference between a Canvas's internal resolution and its DOM presentation.
 
-## 📐 Virtualization Math
+## Virtualization Math
 
 The custom virtualization logic implements a "Windowing" technique to minimize DOM nodes:
 
@@ -42,7 +42,7 @@ The custom virtualization logic implements a "Windowing" technique to minimize D
 For the mapping component, I used **Leaflet** with a custom **City-to-Coordinate Mapping Dictionary**. 
 Since the backend API provides city names but not coordinates, I implemented a lookup utility in `src/pages/Analytics.tsx` that maps common city names (New York, London, Pune, Mumbai, etc.) to their respective Latitude/Longitude. Unknown cities default to a central coordinate to prevent the app from breaking.
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **Framework**: React 19 + Vite
 - **Styling**: Tailwind CSS v4 (Zero UI Libraries)
@@ -50,11 +50,9 @@ Since the backend API provides city names but not coordinates, I implemented a l
 - **Maps**: Leaflet (Native implementation)
 - **State**: React Context API
 
-## 🏃 How to Run
+## How to Run
 
 1. `npm install`
 2. `npm run dev`
 3. Credentials: `testuser` | `Test123`
 
----
-*Developed for evaluation of engineering depth and performance optimization skills.*
