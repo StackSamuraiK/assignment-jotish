@@ -28,7 +28,7 @@ const Login: React.FC = () => {
       <div className="w-full max-w-md bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden transform transition-all duration-300 hover:shadow-2xl">
         <div className="p-8">
           <div className="flex flex-col items-center mb-8">
-            <div className="w-16 h-16 bg-indigo-600 rounded-2xl flex items-center justify-center mb-4 shadow-lg shadow-indigo-200">
+            <div className="w-16 h-16 bg-slate-900 rounded-2xl flex items-center justify-center mb-4 shadow-lg shadow-slate-200">
               <LogIn className="text-white w-8 h-8" />
             </div>
             <h1 className="text-3xl font-bold text-slate-900 tracking-tight">Welcome Back</h1>
@@ -46,7 +46,7 @@ const Login: React.FC = () => {
                   type="text"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  className="block w-full pl-10 pr-3 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-600 focus:border-transparent transition-all outline-none"
+                  className="block w-full pl-10 pr-3 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-all outline-none"
                   placeholder="testuser"
                   required
                 />
@@ -63,7 +63,7 @@ const Login: React.FC = () => {
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="block w-full pl-10 pr-3 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-600 focus:border-transparent transition-all outline-none"
+                  className="block w-full pl-10 pr-3 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-all outline-none"
                   placeholder="••••••••"
                   required
                 />
@@ -78,8 +78,9 @@ const Login: React.FC = () => {
 
             <button
               type="submit"
-              className="w-full bg-indigo-600 text-white py-3 px-4 rounded-xl font-bold hover:bg-indigo-700 focus:ring-4 focus:ring-indigo-500/20 active:scale-[0.98] transition-all flex items-center justify-center gap-2 group"
+              className="w-full bg-slate-900 text-white py-3 px-4 rounded-xl font-bold hover:bg-black focus:ring-4 focus:ring-slate-500/20 active:scale-[0.98] transition-all flex items-center justify-center gap-2 group"
             >
+
               Sign In
               <LogIn className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </button>

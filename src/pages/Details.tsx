@@ -12,7 +12,7 @@ const Details: React.FC = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const signatureRef = useRef<HTMLCanvasElement>(null);
-  
+
   const [stream, setStream] = useState<MediaStream | null>(null);
   const [photo, setPhoto] = useState<string | null>(null);
   const [isDrawing, setIsDrawing] = useState(false);
@@ -22,8 +22,8 @@ const Details: React.FC = () => {
   useEffect(() => {
     const startCamera = async () => {
       try {
-        const mediaStream = await navigator.mediaDevices.getUserMedia({ 
-            video: { facingMode: 'user' } 
+        const mediaStream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: 'user' }
         });
         setStream(mediaStream);
         if (videoRef.current) {
@@ -54,7 +54,7 @@ const Details: React.FC = () => {
         ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
         const dataUrl = canvas.toDataURL('image/png');
         setPhoto(dataUrl);
-        
+
         // Stop camera
         if (stream) {
           stream.getTracks().forEach(track => track.stop());
@@ -72,14 +72,14 @@ const Details: React.FC = () => {
   const endDrawing = () => {
     setIsDrawing(false);
     if (signatureRef.current) {
-        const ctx = signatureRef.current.getContext('2d');
-        ctx?.beginPath();
+      const ctx = signatureRef.current.getContext('2d');
+      ctx?.beginPath();
     }
   };
 
   const draw = (e: React.MouseEvent | React.TouchEvent) => {
     if (!isDrawing || !signatureRef.current) return;
-    
+
     const canvas = signatureRef.current;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
@@ -90,7 +90,7 @@ const Details: React.FC = () => {
 
     ctx.lineWidth = 3;
     ctx.lineCap = 'round';
-    ctx.strokeStyle = '#4f46e5';
+    ctx.strokeStyle = '#000000';
 
     ctx.lineTo(x, y);
     ctx.stroke();
@@ -111,31 +111,31 @@ const Details: React.FC = () => {
       mergedCanvas.width = canvasRef.current.width;
       mergedCanvas.height = canvasRef.current.height;
       const ctx = mergedCanvas.getContext('2d');
-      
+
       if (ctx) {
         // Draw photo
         ctx.drawImage(canvasRef.current, 0, 0);
-        
+
         // Draw signature (scale to fit)
         ctx.drawImage(signatureRef.current, 0, 0, mergedCanvas.width, mergedCanvas.height);
-        
+
         const dataUrl = mergedCanvas.toDataURL('image/png');
-        
+
         // Navigate to analytics with the result
 
-        navigate('/analytics', { 
-            state: { 
-                mergedImage: dataUrl,
-                employee,
-                allEmployees: location.state?.allEmployees || []
-            } 
+        navigate('/analytics', {
+          state: {
+            mergedImage: dataUrl,
+            employee,
+            allEmployees: location.state?.allEmployees || []
+          }
         });
       }
     }
   };
 
   if (!employee) {
-    return <div className="p-8 text-center">Loading employee details...</div>;
+    return <div className="p-8 text-center text-slate-500">Loading employee details...</div>;
   }
 
   return (
@@ -160,18 +160,21 @@ const Details: React.FC = () => {
           </div>
 
           <div className="relative aspect-video bg-slate-900 rounded-2xl overflow-hidden mb-8 shadow-inner border-2 border-slate-100">
+            {/* Hidden canvas for capture - must be rendered to be available in ref */}
+            <canvas ref={canvasRef} className="hidden" />
+
             {!photo ? (
               <>
-                <video 
-                  ref={videoRef} 
-                  autoPlay 
-                  playsInline 
+                <video
+                  ref={videoRef}
+                  autoPlay
+                  playsInline
                   className="w-full h-full object-cover mirror"
                 />
                 <div className="absolute inset-0 border-2 border-white/20 pointer-events-none flex items-center justify-center">
-                    <div className="w-64 h-64 border-2 border-dashed border-white/40 rounded-full"></div>
+                  <div className="w-64 h-64 border-2 border-dashed border-white/40 rounded-full"></div>
                 </div>
-                <button 
+                <button
                   onClick={takePhoto}
                   className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-white/10 backdrop-blur-md border border-white/20 p-5 rounded-full text-white hover:scale-110 active:scale-95 transition-all shadow-xl"
                 >
@@ -180,11 +183,10 @@ const Details: React.FC = () => {
               </>
             ) : (
               <div className="relative w-full h-full">
-                <canvas ref={canvasRef} className="hidden" />
                 <img src={photo} alt="Captured" className="w-full h-full object-cover" />
-                
+
                 {/* Signature Overlay */}
-                <canvas 
+                <canvas
                   ref={signatureRef}
                   width={800} // Intentional Bug: Fixed width/height might not match display size
                   height={450}
@@ -197,71 +199,72 @@ const Details: React.FC = () => {
                   onTouchEnd={endDrawing}
                   className="absolute inset-0 w-full h-full cursor-crosshair touch-none"
                 />
-                
+
                 <div className="absolute top-4 right-4 flex gap-2">
-                  <button 
+                  <button
                     onClick={() => { setPhoto(null); }}
                     className="bg-white/10 backdrop-blur-md border border-white/20 p-2.5 rounded-lg text-white hover:bg-white/20 transition-all"
                   >
                     <RefreshCw className="w-5 h-5" />
                   </button>
-                  <button 
+                  <button
                     onClick={clearSignature}
                     className="bg-white/10 backdrop-blur-md border border-white/20 p-2.5 rounded-lg text-white hover:bg-white/20 transition-all"
                   >
                     <PenTool className="w-5 h-5" />
                   </button>
                 </div>
-                
+
                 <div className="absolute bottom-4 left-4 right-4 text-center pointer-events-none">
-                    <p className="text-white/70 text-sm font-medium bg-black/40 backdrop-blur-sm inline-block px-4 py-1 rounded-full">
-                        Sign slowly on the photo for verification
-                    </p>
+                  <p className="text-white/70 text-sm font-medium bg-black/40 backdrop-blur-sm inline-block px-4 py-1 rounded-full">
+                    Sign slowly on the photo for verification
+                  </p>
                 </div>
               </div>
             )}
           </div>
 
           <div className="flex gap-4">
-            <button 
+            <button
               disabled={!photo}
               onClick={mergeAndSave}
-              className="flex-1 bg-indigo-600 text-white py-4 rounded-xl font-bold hover:bg-indigo-700 disabled:opacity-50 disabled:grayscale transition-all flex items-center justify-center gap-2"
+              className="flex-1 bg-slate-900 text-white py-4 rounded-xl font-bold hover:bg-black disabled:opacity-50 disabled:grayscale transition-all flex items-center justify-center gap-2"
             >
               <Check className="w-5 h-5" />
               Complete Verification
             </button>
-            <button 
-                onClick={() => navigate(-1)}
-                className="px-8 bg-slate-100 text-slate-700 py-4 rounded-xl font-bold hover:bg-slate-200 transition-all"
+            <button
+              onClick={() => navigate(-1)}
+              className="px-8 bg-slate-100 text-slate-700 py-4 rounded-xl font-bold hover:bg-slate-200 transition-all"
             >
-                Cancel
+              Cancel
             </button>
           </div>
         </div>
-        
+
         <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
-            <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-                <div className="w-10 h-10 bg-indigo-50 text-indigo-600 rounded-lg flex items-center justify-center mb-4">
-                    <Camera className="w-5 h-5" />
-                </div>
-                <h3 className="font-bold text-slate-900 text-sm mb-1">Clear Profile</h3>
-                <p className="text-xs text-slate-500">Ensure your face is well-lit and centered in the frame.</p>
+          <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+            <div className="w-10 h-10 bg-slate-100 text-slate-900 rounded-lg flex items-center justify-center mb-4">
+              <Camera className="w-5 h-5" />
             </div>
-            <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-                <div className="w-10 h-10 bg-indigo-50 text-indigo-600 rounded-lg flex items-center justify-center mb-4">
-                    <PenTool className="w-5 h-5" />
-                </div>
-                <h3 className="font-bold text-slate-900 text-sm mb-1">Digital Signature</h3>
-                <p className="text-xs text-slate-500">Draw your signature directly over the captured photo.</p>
+            <h3 className="font-bold text-slate-900 text-sm mb-1">Clear Profile</h3>
+            <p className="text-xs text-slate-500">Ensure your face is well-lit and centered in the frame.</p>
+          </div>
+          <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+            <div className="w-10 h-10 bg-slate-100 text-slate-900 rounded-lg flex items-center justify-center mb-4">
+              <PenTool className="w-5 h-5" />
             </div>
-            <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-                <div className="w-10 h-10 bg-indigo-50 text-indigo-600 rounded-lg flex items-center justify-center mb-4">
-                    <Check className="w-5 h-5" />
-                </div>
-                <h3 className="font-bold text-slate-900 text-sm mb-1">Blob Merge</h3>
-                <p className="text-xs text-slate-500">Both elements will be merged into a single secure audit file.</p>
+            <h3 className="font-bold text-slate-900 text-sm mb-1">Digital Signature</h3>
+            <p className="text-xs text-slate-500">Draw your signature directly over the captured photo.</p>
+          </div>
+          <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+            <div className="w-10 h-10 bg-slate-100 text-slate-900 rounded-lg flex items-center justify-center mb-4">
+              <Check className="w-5 h-5" />
             </div>
+            <h3 className="font-bold text-slate-900 text-sm mb-1">Blob Merge</h3>
+            <p className="text-xs text-slate-500">Both elements will be merged into a single secure audit file.</p>
+          </div>
+
         </div>
       </main>
 
