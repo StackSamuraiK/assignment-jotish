@@ -40,12 +40,17 @@ export const useVirtualization = ({ itemHeight, totalItems, overscan = 5 }: Virt
     const start = Math.max(0, Math.floor(scrollTop / itemHeight) - overscan);
     const end = Math.min(totalItems, Math.ceil((scrollTop + viewportHeight) / itemHeight) + overscan);
     
+    // Ensure indices are within bounds
+    const clampedStart = Math.max(0, start);
+    const clampedEnd = Math.min(totalItems, end);
+    
     return {
-      startIndex: start,
-      endIndex: end,
-      translateY: start * itemHeight
+      startIndex: clampedStart,
+      endIndex: clampedEnd,
+      translateY: clampedStart * itemHeight
     };
   }, [scrollTop, itemHeight, totalItems, viewportHeight, overscan]);
+
 
   const totalContentHeight = totalItems * itemHeight;
 

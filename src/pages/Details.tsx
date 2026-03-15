@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
-import { Camera, RefreshCw, Check, X, ArrowLeft, PenTool, Download } from 'lucide-react';
+import { Camera, RefreshCw, Check, ArrowLeft, PenTool } from 'lucide-react';
+
 
 const Details: React.FC = () => {
   const { id } = useParams();
@@ -15,7 +16,7 @@ const Details: React.FC = () => {
   const [stream, setStream] = useState<MediaStream | null>(null);
   const [photo, setPhoto] = useState<string | null>(null);
   const [isDrawing, setIsDrawing] = useState(false);
-  const [mergedImage, setMergedImage] = useState<string | null>(null);
+
 
   // Initialize Camera
   useEffect(() => {
@@ -119,9 +120,9 @@ const Details: React.FC = () => {
         ctx.drawImage(signatureRef.current, 0, 0, mergedCanvas.width, mergedCanvas.height);
         
         const dataUrl = mergedCanvas.toDataURL('image/png');
-        setMergedImage(dataUrl);
         
         // Navigate to analytics with the result
+
         navigate('/analytics', { 
             state: { 
                 mergedImage: dataUrl,
@@ -199,7 +200,7 @@ const Details: React.FC = () => {
                 
                 <div className="absolute top-4 right-4 flex gap-2">
                   <button 
-                    onClick={() => { setPhoto(null); setMergedImage(null); }}
+                    onClick={() => { setPhoto(null); }}
                     className="bg-white/10 backdrop-blur-md border border-white/20 p-2.5 rounded-lg text-white hover:bg-white/20 transition-all"
                   >
                     <RefreshCw className="w-5 h-5" />
